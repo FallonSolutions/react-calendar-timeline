@@ -1,7 +1,10 @@
 {
-  "name": "react-calendar-timeline",
-  "version": "0.27.0",
+  "name": "@fallonsolutions/react-calendar-timeline",
   "description": "react calendar timeline",
+  "version": "0.27.1",
+  "publishConfig": {
+    "registry": "https://npm.pkg.github.com/"
+  },
   "main": "lib/index.js",
   "scripts": {
     "build": "npm run build:lib",
@@ -18,10 +21,10 @@
     "lib",
     "src"
   ],
-  "homepage": "https://github.com/namespace-ee/react-calendar-timeline",
+  "homepage": "https://github.com/FallonSolutions/react-calendar-timeline",
   "repository": {
     "type": "git",
-    "url": "https://github.com/namespace-ee/react-calendar-timeline.git"
+    "url": "https://github.com/FallonSolutions/react-calendar-timeline.git"
   },
   "author": "Marius Andra <marius.andra@gmail.com>",
   "contributors": [
