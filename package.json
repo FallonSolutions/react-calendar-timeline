@@ -1,7 +1,7 @@
 {
   "name": "@fallonsolutions/react-calendar-timeline",
   "description": "react calendar timeline",
-  "version": "0.27.1",
+  "version": "0.27.5",
   "publishConfig": {
     "registry": "https://npm.pkg.github.com/"
   },
@@ -9,7 +9,7 @@
   "scripts": {
     "build": "npm run build:lib",
     "build:demo": "echo '!!! Building Demo' && cross-env NODE_ENV=production webpack --progress",
-    "build:lib": "echo '!!! Building Library' && rimraf lib && cross-env NODE_ENV=production babel src --out-dir lib && node-sass src/lib/Timeline.scss lib/Timeline.css && sed -i'.bak' 's/Timeline\\.scss/Timeline\\.css/g' lib/lib/Timeline.js && rm lib/lib/Timeline.js.bak",
+    "build:lib": "echo '!!! Building Library' && rimraf lib && cross-env NODE_ENV=production babel src --out-dir lib && node-sass src/lib/Timeline.scss lib/Timeline.css && sed -i'.bak' 's/Timeline\\.scss/Timeline\\.css/g' lib/lib/Timeline.js && rm lib/lib/Timeline.js.bak && cp index.d.ts lib/",
     "lint": "eslint --ext .js --ext .jsx ./src",
     "lint:fix": "prettier-eslint --parser babylon --write \"src/**/*.js\"",
     "prepublish": "npm run build:lib",
