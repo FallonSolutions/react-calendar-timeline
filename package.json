@@ -1,7 +1,7 @@
 {
   "name": "@fallonsolutions/react-calendar-timeline",
   "description": "react calendar timeline",
-  "version": "0.27.5",
+  "version": "0.27.7",
   "publishConfig": {
     "registry": "https://npm.pkg.github.com/"
   },
