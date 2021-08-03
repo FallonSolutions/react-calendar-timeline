@@ -81,6 +81,7 @@ export default class ReactCalendarTimeline extends Component {
 
     itemRenderer: PropTypes.func,
     groupRenderer: PropTypes.func,
+    rowRenderer: PropTypes.func,
 
     className: PropTypes.string,
     style: PropTypes.object,
@@ -770,11 +771,13 @@ export default class ReactCalendarTimeline extends Component {
     }
   }
 
-  rows(canvasWidth, groupHeights, groups) {
+  rows(canvasWidth, canvasTimeStart, canvasTimeEnd, groupHeights, groups, rowRenderer) {
     return (
       <GroupRows
         groups={groups}
         canvasWidth={canvasWidth}
+        canvasTimeStart={canvasTimeStart}
+        canvasTimeEnd={canvasTimeEnd}
         lineCount={_length(this.props.groups)}
         groupHeights={groupHeights}
         clickTolerance={this.props.clickTolerance}
@@ -784,6 +787,7 @@ export default class ReactCalendarTimeline extends Component {
           this.props.horizontalLineClassNamesForGroup
         }
         onRowContextClick={this.handleScrollContextMenu}
+        rowRenderer={rowRenderer}
       />
     )
   }
@@ -974,7 +978,8 @@ export default class ReactCalendarTimeline extends Component {
       sidebarWidth,
       rightSidebarWidth,
       timeSteps,
-      traditionalZoom
+      traditionalZoom,
+      rowRenderer
     } = this.props
     const {
       draggingItem,
@@ -1066,7 +1071,7 @@ export default class ReactCalendarTimeline extends Component {
                       timeSteps,
                       height
                     )}
-                    {this.rows(canvasWidth, groupHeights, groups)}
+                    {this.rows(canvasWidth, canvasTimeStart, canvasTimeEnd, groupHeights, groups, rowRenderer)}
                     {this.items(
                       canvasTimeStart,
                       zoom,

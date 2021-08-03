@@ -132,6 +132,21 @@ export default class App extends Component {
     return time
   }
 
+  rowRenderer = (
+    group, 
+    canvasWidth,
+    canvasTimeStart,
+    canvasTimeEnd 
+  ) => {
+    console.log('row renderer', group, canvasWidth, canvasTimeStart, canvasTimeEnd)
+    const index = parseInt(group.id)
+    if (index > 20 && index < 30) {
+      return { backgroundColor: '#D5D9E7' }
+    } else {
+      return { backgroundColor: '#F3F4F8' }
+    }
+  }
+
   itemRenderer = ({
     item,
     timelineContext,
@@ -216,6 +231,7 @@ export default class App extends Component {
         defaultTimeStart={defaultTimeStart}
         defaultTimeEnd={defaultTimeEnd}
         itemRenderer={this.itemRenderer}
+        rowRenderer={this.rowRenderer}
         // groupRenderer={this.groupRenderer}
 
         onCanvasClick={this.handleCanvasClick}

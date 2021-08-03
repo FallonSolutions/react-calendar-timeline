@@ -241,6 +241,7 @@ declare module '@fallonsolutions/react-calendar-timeline' {
         onBoundsChange?(canvasTimeStart: number, canvasTimeEnd: number): any;
         itemRenderer?: ((props: ReactCalendarItemRendererProps<CustomItem>) => React.ReactNode) | undefined;
         groupRenderer?: ((props: ReactCalendarGroupRendererProps<CustomGroup>) => React.ReactNode) | undefined;
+        rowRenderer?(group: any, canvasWidth: number, canvasTimeStart: number, canvasTimeEnd: number): React.CSSProperties | undefined;
         resizeDetector?: ((containerResizeDetector: any) => void) | undefined;
         verticalLineClassNamesForTime?: ((start: number, end: number) => string[] | undefined) | undefined;
         horizontalLineClassNamesForGroup?: ((group: CustomGroup) => string[]) | undefined;

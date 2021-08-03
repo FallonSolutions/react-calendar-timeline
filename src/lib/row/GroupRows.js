@@ -5,6 +5,8 @@ import GroupRow from './GroupRow'
 export default class GroupRows extends Component {
   static propTypes = {
     canvasWidth: PropTypes.number.isRequired,
+    canvasTimeStart: PropTypes.number,
+    canvasTimeEnd: PropTypes.number,
     lineCount: PropTypes.number.isRequired,
     groupHeights: PropTypes.array.isRequired,
     onRowClick: PropTypes.func.isRequired,
@@ -13,11 +15,14 @@ export default class GroupRows extends Component {
     groups: PropTypes.array.isRequired,
     horizontalLineClassNamesForGroup: PropTypes.func,
     onRowContextClick: PropTypes.func.isRequired,
+    rowRenderer: PropTypes.func
   }
 
   shouldComponentUpdate(nextProps) {
     return !(
       nextProps.canvasWidth === this.props.canvasWidth &&
+      nextProps.canvasTimeStart === this.props.canvasTimeStart &&
+      nextProps.canvasTimeEnd === this.props.canvasTimeEnd &&
       nextProps.lineCount === this.props.lineCount &&
       nextProps.groupHeights === this.props.groupHeights &&
       nextProps.groups === this.props.groups
@@ -27,6 +32,8 @@ export default class GroupRows extends Component {
   render() {
     const {
       canvasWidth,
+      canvasTimeStart,
+      canvasTimeEnd,
       lineCount,
       groupHeights,
       onRowClick,
@@ -35,10 +42,18 @@ export default class GroupRows extends Component {
       groups,
       horizontalLineClassNamesForGroup,
       onRowContextClick,
+      rowRenderer
     } = this.props
     let lines = []
 
     for (let i = 0; i < lineCount; i++) {
+      const group = groups[i]
+      const customStyles = rowRenderer ? rowRenderer(
+        group, 
+        canvasWidth,
+        canvasTimeStart,
+        canvasTimeEnd 
+      ) : undefined
       lines.push(
         <GroupRow
           clickTolerance={clickTolerance}
@@ -47,11 +62,12 @@ export default class GroupRows extends Component {
           onDoubleClick={evt => onRowDoubleClick(evt, i)}
           key={`horizontal-line-${i}`}
           isEvenRow={i % 2 === 0}
-          group={groups[i]}
+          group={group}
           horizontalLineClassNamesForGroup={horizontalLineClassNamesForGroup}
           style={{
             width: `${canvasWidth}px`,
-            height: `${groupHeights[i]}px`
+            height: `${groupHeights[i]}px`,
+            ...(customStyles && { ...customStyles })
           }}
         />
       )
