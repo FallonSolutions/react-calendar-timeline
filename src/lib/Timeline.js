@@ -267,6 +267,21 @@ export default class ReactCalendarTimeline extends Component {
     }
   }
 
+  getTimelineUnit = () => {
+    const {
+      width,
+      visibleTimeStart,
+      visibleTimeEnd
+    } = this.state
+
+    const { timeSteps } = this.props
+
+    const zoom = visibleTimeEnd - visibleTimeStart
+    const minUnit = getMinUnit(zoom, width, timeSteps)
+
+    return minUnit
+  }
+
   constructor(props) {
     super(props)
 
@@ -412,7 +427,7 @@ export default class ReactCalendarTimeline extends Component {
         )
       )
     }
-    
+
     return derivedState
   }
 
@@ -422,7 +437,7 @@ export default class ReactCalendarTimeline extends Component {
 
     // are we changing zoom? Report it!
     if (this.props.onZoom && newZoom !== oldZoom) {
-      this.props.onZoom(this.getTimelineContext())
+      this.props.onZoom(this.getTimelineContext(), this.getTimelineUnit())
     }
 
     // The bounds have changed? Report it!
@@ -512,7 +527,8 @@ export default class ReactCalendarTimeline extends Component {
       this.props.onTimeChange(
         visibleTimeStart,
         visibleTimeStart + zoom,
-        this.updateScrollCanvas
+        this.updateScrollCanvas,
+        this.getTimelineUnit()
       )
     }
   }
@@ -556,7 +572,8 @@ export default class ReactCalendarTimeline extends Component {
     this.props.onTimeChange(
       newVisibleTimeStart,
       newVisibleTimeStart + newZoom,
-      this.updateScrollCanvas
+      this.updateScrollCanvas,
+      this.getTimelineUnit()
     )
   }
 
@@ -566,14 +583,15 @@ export default class ReactCalendarTimeline extends Component {
 
     let zoom = visibleTimeEnd - visibleTimeStart
     // can't zoom in more than to show one hour
-    if (zoom < 360000) {
+    if (zoom < this.props.minZoom) {
       return
     }
 
     this.props.onTimeChange(
       visibleTimeStart,
       visibleTimeStart + zoom,
-      this.updateScrollCanvas
+      this.updateScrollCanvas,
+      this.getTimelineUnit()
     )
   }
 
@@ -875,13 +893,13 @@ export default class ReactCalendarTimeline extends Component {
 
   /**
    * check if child of type TimelineHeader
-   * refer to for explanation https://github.com/gaearon/react-hot-loader#checking-element-types 
+   * refer to for explanation https://github.com/gaearon/react-hot-loader#checking-element-types
    */
   isTimelineHeader = (child) => {
     if(child.type === undefined) return false
     return child.type.secretKey ===TimelineHeaders.secretKey
   }
-  
+
   childrenWithProps(
     canvasTimeStart,
     canvasTimeEnd,
